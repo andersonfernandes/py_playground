@@ -6,7 +6,6 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-import pandas as pd
 import csv
 import os
 
@@ -33,11 +32,14 @@ with open(OUTPUT_FILENAME, 'w') as file:
     writer = csv.writer(file)
     for i in range(55):
         try:
-            product_text_xpath = '//*[@id="ad-list"]/li[' + str(i + 1) + ']/a/div/div[2]'
-            product = driver.find_element(By.XPATH, product_text_xpath)
-            row = product.text.replace('\n', ',').split(',')
+            product_link_xpath = '//*[@id="ad-list"]/li[' + str(i + 1) + ']/a'
+            product_link_element = driver.find_element(By.XPATH, product_link_xpath)
 
-            writer.writerow(row)
+            product_text_xpath = 'div/div[2]'
+            product_text_element = product_link_element.find_element(By.XPATH, product_text_xpath)
+            row_text = product_text_element.text.replace('\n', ',').split(',')
+
+            writer.writerow(row_text)
         except Exception as e:
             print('Unable to find element with index: ' + str(i + 1))
 
