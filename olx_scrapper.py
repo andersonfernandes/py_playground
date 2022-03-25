@@ -10,7 +10,8 @@ import csv
 import os
 import time
 
-OUTPUT_FILENAME = './outputs/products.csv'
+OUTPUT_FOLDER = './outputs/'
+OUTPUT_FILE_PATH = OUTPUT_FOLDER + 'products.csv'
 
 service = Service(ChromeDriverManager().install())
 capabilities = DesiredCapabilities.CHROME
@@ -33,11 +34,14 @@ wait = WebDriverWait(driver, 20)
 driver.get('https://al.olx.com.br/eletronicos-e-celulares')
 wait.until(EC.presence_of_element_located((By.ID, 'ad-list')))
 
-if (os.path.exists(OUTPUT_FILENAME)):
-    os.remove(OUTPUT_FILENAME)
+if not os.path.exists(OUTPUT_FOLDER):
+    os.makedirs(OUTPUT_FOLDER)
+
+if (os.path.exists(OUTPUT_FILE_PATH)):
+    os.remove(OUTPUT_FILE_PATH)
 
 # TODO: pagination
-with open(OUTPUT_FILENAME, 'w') as file:
+with open(OUTPUT_FILE_PATH, 'w') as file:
     writer = csv.writer(file)
     for i in range(55):
         try:
@@ -58,10 +62,11 @@ with open(OUTPUT_FILENAME, 'w') as file:
             product_text_element = product_link_element.find_element(By.XPATH, product_text_xpath)
             row_text = product_text_element.text.replace('\n', ',').split(',')
 
+            # TODO: Save to the database
             writer.writerow(row_text)
         except Exception as e:
             print('Unable to find element with index: ' + str(i + 1))
 
-print('\nGenerated file ' + OUTPUT_FILENAME)
+print('\nGenerated file ' + OUTPUT_FILE_PATH)
 
 driver.quit()
