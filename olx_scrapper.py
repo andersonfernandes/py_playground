@@ -6,12 +6,9 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-import csv
-import os
+import mysql.connector
 import time
-
-OUTPUT_FOLDER = './outputs/'
-OUTPUT_FILE_PATH = OUTPUT_FOLDER + 'products.csv'
+import re
 
 service = Service(ChromeDriverManager().install())
 capabilities = DesiredCapabilities.CHROME
@@ -31,42 +28,54 @@ options.add_argument('--ignore-certificate-errors')
 driver = webdriver.Chrome(service=service, desired_capabilities=capabilities, options=options)
 wait = WebDriverWait(driver, 20)
 
-driver.get('https://al.olx.com.br/eletronicos-e-celulares')
+driver.get('https://al.olx.com.br/celulares')
 wait.until(EC.presence_of_element_located((By.ID, 'ad-list')))
 
-if not os.path.exists(OUTPUT_FOLDER):
-    os.makedirs(OUTPUT_FOLDER)
+database_connection = mysql.connector.connect(
+    host='localhost',
+    user='root',
+    password='root',
+    database='olx_database'
+)
 
-if (os.path.exists(OUTPUT_FILE_PATH)):
-    os.remove(OUTPUT_FILE_PATH)
+def insert_place(city, district, state='Alagoas'):
+    cursor = database_connection.cursor()
+    sql = "INSERT IGNORE INTO DM_LOCAL (CIDADE, BAIRRO, ESTADO) VALUES (%s, %s, %s)"
+    cursor.execute(sql, (city, district, state))
+    database_connection.commit()
+    cursor.close()
 
 # TODO: pagination
-with open(OUTPUT_FILE_PATH, 'w') as file:
-    writer = csv.writer(file)
-    for i in range(55):
-        try:
-            product_link_xpath = '//*[@id="ad-list"]/li[' + str(i + 1) + ']/a'
-            product_link_element = driver.find_element(By.XPATH, product_link_xpath)
-            product_url = product_link_element.get_attribute('href')
+for i in range(55):
+    try:
+        product_link_xpath = '//*[@id="ad-list"]/li[' + str(i + 1) + ']/a'
+        product_link_element = driver.find_element(By.XPATH, product_link_xpath)
+        product_url = product_link_element.get_attribute('href')
 
-            driver.execute_script('window.open("' + product_url + '");')
-            driver.switch_to.window(driver.window_handles[-1])
+        # driver.execute_script('window.open("' + product_url + '");')
+        # driver.switch_to.window(driver.window_handles[-1])
+        #
+        # time.sleep(1)
+        # driver.close()
+        # driver.switch_to.window(driver.window_handles[0])
 
-            time.sleep(1)
-            # TODO: Process product details
+        product_text_xpath = 'div/div[2]'
+        product_text_element = product_link_element.find_element(By.XPATH, product_text_xpath)
+        row_arr = product_text_element.text.replace('\n', '|').split('|')
 
-            driver.close()
+        if 'Online' in row_arr:
+            row_arr.remove('Online')
 
-            driver.switch_to.window(driver.window_handles[0])
-            product_text_xpath = 'div/div[2]'
-            product_text_element = product_link_element.find_element(By.XPATH, product_text_xpath)
-            row_text = product_text_element.text.replace('\n', ',').split(',')
+        row_arr = [el for el in row_arr if 'de R$' not in el]
 
-            # TODO: Save to the database
-            writer.writerow(row_text)
-        except Exception as e:
-            print('Unable to find element with index: ' + str(i + 1))
+        # TODO: Fix this unpack
+        title, price, when, at, where, *_ = row_arr
+        city, district, *_ = where.replace(' -', ', ').split(', ')
 
-print('\nGenerated file ' + OUTPUT_FILE_PATH)
+        insert_place(city=city, district=district)
+    except Exception as e:
+        # print(e)
+        pass
 
+database_connection.close()
 driver.quit()
