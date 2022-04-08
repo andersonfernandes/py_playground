@@ -22,10 +22,10 @@ USE `olx_database` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `olx_database`.`DM_TEMPO` (
   `ID_TEMPO` INT NOT NULL AUTO_INCREMENT,
-  `ANO` INT NULL,
-  `MES` INT NULL,
-  `DIA` INT NULL,
-  `HORA` INT NULL,
+  `ANO` VARCHAR(45) NULL,
+  `MES` VARCHAR(45) NULL,
+  `DIA` VARCHAR(45) NULL,
+  `HORA` VARCHAR(45) NULL,
   PRIMARY KEY (`ID_TEMPO`))
 ENGINE = InnoDB;
 
