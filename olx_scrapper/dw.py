@@ -32,5 +32,12 @@ def insert_advertiser(name):
     database_connection.commit()
     cursor.close()
 
+def insert_date(hour, day, moth, year="2022"):
+    cursor = database_connection.cursor()
+    sql = "INSERT INTO dm_tempo (HORA, DIA, MES, ANO) VALUES (%s, %s, %s, %s)"
+    cursor.execute(sql, (hour, day, moth, year))
+    database_connection.commit()
+    cursor.close()
+
 def close_db_connection():
     database_connection.close()
