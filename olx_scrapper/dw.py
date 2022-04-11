@@ -27,7 +27,7 @@ def insert_place():
 
 def insert_mobile():
     cursor = database_connection.cursor()
-    sql = "INSERT INTO dm_celular SELECT DISTINCT null, MARCA, MODELO, CONDICAO, PRECO FROM olx_database.tmp_etl"
+    sql = "INSERT INTO dm_celular SELECT DISTINCT null, MARCA, MODELO, CONDICAO FROM olx_database.tmp_etl"
     cursor.execute(sql)
     database_connection.commit()
     cursor.close()
@@ -48,7 +48,7 @@ def insert_date():
 
 def insert_fact_ads():
     cursor = database_connection.cursor()
-    sql = "INSERT INTO dm_fato_anuncios SELECT c.ID_CELULAR, t.ID_TEMPO, l.ID_LOCAL, a.ID_ANUNCIANTE, c.PRECO FROM olx_database.tmp_etl x, olx_database.dm_local  l, olx_database.dm_celular c, olx_database.dm_anunciante a, olx_database.dm_tempo t WHERE x.MARCA = c.MARCA AND x.ANO = t.ANO AND x.ESTADO = l.ESTADO AND x.NOME = a.NOME AND x.PRECO = c.PRECO AND x.MODELO = c.MODELO"
+    sql = "INSERT INTO dm_fato_anuncios SELECT c.ID_CELULAR, t.ID_TEMPO, l.ID_LOCAL, a.ID_ANUNCIANTE, x.PRECO FROM olx_database.tmp_etl x, olx_database.dm_local  l, olx_database.dm_celular c, olx_database.dm_anunciante a, olx_database.dm_tempo t WHERE x.ESTADO = l.ESTADO AND x.CIDADE = l.CIDADE AND x.BAIRRO = l.BAIRRO AND x.MARCA = c.MARCA AND x.MODELO = c.MODELO AND x.CONDICAO = c.CONDICAO AND x.NOME = a.NOME AND x.ANO = t.ANO AND x.MES = t.MES AND x.DIA = t.DIA AND x.HORA = t.HORA"
     cursor.execute(sql)
     database_connection.commit()
     cursor.close()
