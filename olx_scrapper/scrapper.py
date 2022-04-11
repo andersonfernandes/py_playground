@@ -1,5 +1,5 @@
 import time
-from dw import insert_place, insert_mobile, insert_advertiser, insert_date, close_db_connection
+from dw import insert_place, insert_mobile, insert_advertiser, insert_date, insert_fact_ads, insert_TPM_ETL, close_db_connection
 from chrome_driver import get_driver, find_element_by_xpath, wait_element_load
 
 driver = get_driver()
@@ -20,9 +20,10 @@ for i in range(6):
         time.sleep(3)
         
         brand = driver.find_element_by_xpath('//*[@id="content"]/div[2]/div/div[2]/div[1]/div[22]/div/div/div/div[2]/div[2]/div/a').get_attribute('text')        
-        state = driver.find_element_by_xpath('//*[@id="content"]/div[2]/div/div[2]/div[1]/div[22]/div/div/div/div[2]/div[3]/div/a').get_attribute('text')
+        condition = driver.find_element_by_xpath('//*[@id="content"]/div[2]/div/div[2]/div[1]/div[22]/div/div/div/div[2]/div[3]/div/a').get_attribute('text')
         advertiserName = driver.find_element_by_xpath('//*[@id="miniprofile"]/div/div/div/div[2]/div/span').text
         publicationData = driver.find_element_by_xpath('//*[@id="content"]/div[2]/div/div[2]/div[1]/div[26]/div/div/div/span[1]').text
+
         listStrDate = publicationData.split()
         listMothDay = listStrDate[2].split('/')
       
@@ -44,18 +45,24 @@ for i in range(6):
         row_arr = [el for el in row_arr if 'de R$' not in el]
 
         # TODO: Fix this unpack
-        title, price, *_, when, at, where, = row_arr
-    
-        city, district = where.split(' - ')[0].split(', ') 
-
-        insert_place(city=city, district=district)
-        insert_mobile(brand, title, state)
-        insert_advertiser(advertiserName)
-        insert_date(hour=listStrDate[4], day=listMothDay[0], moth=listMothDay[1])
+        title, price, *_, when, at, where, = row_arr #quando o *_ não se encontra na página um erro: not enough values to unpack 
+        if ',' in where:
+            city, district = where.split(' - ')[0].split(', ')
+        else:            
+            city, refuse = where.split(' - ')
+            district = 'unknown'
         
+        insert_TPM_ETL(brand, title, condition, price, advertiserName, hour=listStrDate[4], day=listMothDay[0], moth=listMothDay[1], city=city,  district=district)
+            
     except Exception as e:
         print(e)
-        # pass
+        #pass
+
+insert_place()
+insert_mobile()
+insert_advertiser()
+insert_date()
+insert_fact_ads()
 
 close_db_connection()
 driver.quit()
