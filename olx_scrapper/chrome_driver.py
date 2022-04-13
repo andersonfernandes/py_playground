@@ -19,10 +19,10 @@ options.add_argument('--disable-gpu')
 options.add_argument('--disable-dev-shm-usage')
 options.add_argument('--no-sandbox')
 options.add_argument('--ignore-certificate-errors')
-# options.add_argument('--headless')
+options.add_argument('--headless')
 
 driver = webdriver.Chrome(service=service, desired_capabilities=capabilities, options=options)
-wait = WebDriverWait(driver, 20)
+wait = WebDriverWait(driver, 25)
 
 def get_driver():
     return driver
