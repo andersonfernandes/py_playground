@@ -1,4 +1,3 @@
-import time
 from dw import insert_place, insert_mobile, insert_advertiser, insert_date, insert_fact_ads, insert_TPM_ETL, close_db_connection
 from chrome_driver import get_driver, find_element_by_xpath, wait_element_load
 
@@ -9,10 +8,13 @@ wait_element_load('ad-list')
 # TODO: pagination
 for i in range(10):
     try:
-        product_link_xpath = '//*[@id="ad-list"]/li[' + str(i + 1) + ']/div'
+        link_base_xpath = '//*[@id="ad-list"]/li[' + str(i + 1) + ']'
+        product_link_xpath = f'{link_base_xpath}/div'
         product_link_element = find_element_by_xpath(xpath=product_link_xpath)
 
-        if product_link_element.get_attribute('class') == 'yap-gemini-pub-item':
+        product_link_element_class = product_link_element.get_attribute('class')
+        pub_classes = ['yap-gemini-pub-item', 'listing-native-list-item-1-pub']
+        if product_link_element_class in pub_classes:
             continue
 
         product_link_element.click()
@@ -56,6 +58,10 @@ for i in range(10):
 
         insert_TPM_ETL(brand, title, condition, price, advertiser_name, hour=list_str_date[4], day=list_month_day[0], moth=list_month_day[1], city=city,  district=district)
     except Exception as e:
+        if len(driver.window_handles) > 1:
+            driver.close()
+            driver.switch_to.window(driver.window_handles[0])
+
         print(e)
         continue
 

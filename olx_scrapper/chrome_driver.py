@@ -22,7 +22,7 @@ options.add_argument('--ignore-certificate-errors')
 options.add_argument('--headless')
 
 driver = webdriver.Chrome(service=service, desired_capabilities=capabilities, options=options)
-wait = WebDriverWait(driver, 25)
+wait = WebDriverWait(driver, 20)
 
 def get_driver():
     return driver
