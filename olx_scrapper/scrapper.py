@@ -31,7 +31,10 @@ for i in range(10):
         advertiser_name = find_element_by_xpath('//*[@id="miniprofile"]/div/div/div/div[2]/div/span').text
 
         list_str_date = publication_data.split()
+        hour = list_str_date[4]
         list_month_day = list_str_date[2].split('/')
+        day = int(list_month_day[0])
+        moth = int(list_month_day[1])
 
         driver.close()
         driver.switch_to.window(driver.window_handles[0])
@@ -57,8 +60,8 @@ for i in range(10):
             district = 'unknown'
 
         real, amount = price.split(' ')
-
-        insert_TPM_ETL(brand, title, condition, float(amount), advertiser_name, hour=list_str_date[4], day=list_month_day[0], moth=list_month_day[1], city=city,  district=district)
+  
+        insert_TPM_ETL(brand, title, condition, amount, advertiser_name, hour, day, moth, city=city,  district=district)
     except Exception as e:
         if len(driver.window_handles) > 1:
             driver.close()
