@@ -56,7 +56,9 @@ for i in range(10):
             city, _ = where.split(' - ')
             district = 'unknown'
 
-        insert_TPM_ETL(brand, title, condition, price, advertiser_name, hour=list_str_date[4], day=list_month_day[0], moth=list_month_day[1], city=city,  district=district)
+        real, amount = price.split(' ')
+
+        insert_TPM_ETL(brand, title, condition, float(amount), advertiser_name, hour=list_str_date[4], day=list_month_day[0], moth=list_month_day[1], city=city,  district=district)
     except Exception as e:
         if len(driver.window_handles) > 1:
             driver.close()
