@@ -11,7 +11,7 @@ database_connection = mysql.connector.connect(
     database=os.getenv('DATABASE_NAME')
 )
 
-def insert_TPM_ETL(brand, title, condition, price, name, hour, day, moth, city, district, state="Alagoas", year="2022"):
+def insert_TPM_ETL(brand, title, condition, price, name, hour, day, moth, city, district, state="Alagoas", year=2022):
     cursor = database_connection.cursor()
     sql = "INSERT INTO tmp_etl (MARCA, MODELO, CONDICAO, PRECO, NOME, HORA, DIA, MES, CIDADE, BAIRRO, ESTADO, ANO ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
     cursor.execute(sql, (brand, title, condition, price, name, hour, day, moth, city, district, state, year))
