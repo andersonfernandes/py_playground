@@ -19,9 +19,9 @@ CREATE SCHEMA IF NOT EXISTS `olx_database` DEFAULT CHARACTER SET utf8 ;
 USE `olx_database` ;
 
 -- -----------------------------------------------------
--- Table `olx_database`.`DM_TEMPO`
+-- Table `olx_database`.`dm_tempo`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `olx_database`.`DM_TEMPO` (
+CREATE TABLE IF NOT EXISTS `olx_database`.`dm_tempo` (
   `ID_TEMPO` INT NOT NULL AUTO_INCREMENT,
   `ANO` INT NULL,
   `MES` INT NULL,
@@ -32,9 +32,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `olx_database`.`DM_LOCAL`
+-- Table `olx_database`.`dm_local`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `olx_database`.`DM_LOCAL` (
+CREATE TABLE IF NOT EXISTS `olx_database`.`dm_local` (
   `ID_LOCAL` INT NOT NULL AUTO_INCREMENT,
   `ESTADO` VARCHAR(45) NULL,
   `CIDADE` VARCHAR(45) NULL,
@@ -44,9 +44,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `olx_database`.`DM_CELULAR`
+-- Table `olx_database`.`dm_celular`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `olx_database`.`DM_CELULAR` (
+CREATE TABLE IF NOT EXISTS `olx_database`.`dm_celular` (
   `ID_CELULAR` INT NOT NULL AUTO_INCREMENT,
   `MARCA` VARCHAR(45) NULL,
   `MODELO` VARCHAR(255) NULL,
@@ -56,9 +56,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `olx_database`.`DM_ANUNCIANTE`
+-- Table `olx_database`.`dm_anunciante`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `olx_database`.`DM_ANUNCIANTE` (
+CREATE TABLE IF NOT EXISTS `olx_database`.`dm_anunciante` (
   `ID_ANUNCIANTE` INT NOT NULL AUTO_INCREMENT,
   `NOME` VARCHAR(45) NULL,
   PRIMARY KEY (`ID_ANUNCIANTE`))
@@ -66,9 +66,9 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `olx_database`.`DM_FATO_ANUNCIOS`
+-- Table `olx_database`.`dm_fato_anuncios`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `olx_database`.`DM_FATO_ANUNCIOS` (
+CREATE TABLE IF NOT EXISTS `olx_database`.`dm_fato_anuncios` (
   `DM_CELULAR_ID_CELULAR` INT NOT NULL,
   `DM_TEMPO_ID_TEMPO` INT NOT NULL,
   `DM_LOCAL_ID_LOCAL` INT NOT NULL,
@@ -80,31 +80,31 @@ CREATE TABLE IF NOT EXISTS `olx_database`.`DM_FATO_ANUNCIOS` (
   INDEX `fk_DM_FATO_ANUNCIOS_DM_ANUNCIANTE1_idx` (`DM_ANUNCIANTE_ID_ANUNCIANTE` ASC) VISIBLE,
   CONSTRAINT `fk_DM_FATO_ANUNCIOS_DM_CELULAR`
     FOREIGN KEY (`DM_CELULAR_ID_CELULAR`)
-    REFERENCES `olx_database`.`DM_CELULAR` (`ID_CELULAR`)
+    REFERENCES `olx_database`.`dm_celular` (`ID_CELULAR`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_DM_FATO_ANUNCIOS_DM_TEMPO1`
     FOREIGN KEY (`DM_TEMPO_ID_TEMPO`)
-    REFERENCES `olx_database`.`DM_TEMPO` (`ID_TEMPO`)
+    REFERENCES `olx_database`.`dm_tempo` (`ID_TEMPO`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_DM_FATO_ANUNCIOS_DM_LOCAL1`
     FOREIGN KEY (`DM_LOCAL_ID_LOCAL`)
-    REFERENCES `olx_database`.`DM_LOCAL` (`ID_LOCAL`)
+    REFERENCES `olx_database`.`dm_local` (`ID_LOCAL`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_DM_FATO_ANUNCIOS_DM_ANUNCIANTE1`
     FOREIGN KEY (`DM_ANUNCIANTE_ID_ANUNCIANTE`)
-    REFERENCES `olx_database`.`DM_ANUNCIANTE` (`ID_ANUNCIANTE`)
+    REFERENCES `olx_database`.`dm_anunciante` (`ID_ANUNCIANTE`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `olx_database`.`TMP_ETL`
+-- Table `olx_database`.`tmp_etl`
 -- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `olx_database`.`TMP_ETL` (
+CREATE TABLE IF NOT EXISTS `olx_database`.`tmp_etl` (
   `ID_TMP_ETL` INT NOT NULL AUTO_INCREMENT,
   `NOME` VARCHAR(45) NULL,
   `ESTADO` VARCHAR(45) NULL,
