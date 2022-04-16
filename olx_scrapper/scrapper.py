@@ -74,11 +74,11 @@ for page in range(10):
             print(e)
             continue
 
-    insert_place()
-    insert_mobile()
-    insert_advertiser()
-    insert_date()
-    insert_fact_ads()
+insert_place()
+insert_mobile()
+insert_advertiser()
+insert_date()
+insert_fact_ads()
 
 close_db_connection()
 driver.quit()
