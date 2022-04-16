@@ -60,7 +60,7 @@ for page in range(10):
                 city, _ = where.split(' - ')
                 district = 'unknown'
 
-            real, amount = price.split(' ')
+            _, amount = price.split(' ')
 
             for i in amount:
                 amount = amount.replace('.','')
