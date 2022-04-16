@@ -1,0 +1,50 @@
+<Schema name="dwAnuncios">
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="DimTempo">
+    <Hierarchy name="Tempo" visible="true" hasAll="true" primaryKey="ID_TEMPO">
+      <Table name="dm_tempo">
+      </Table>
+      <Level name="Ano" visible="true" table="dm_tempo" column="ANO" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="DimLocal">
+    <Hierarchy name="Local" visible="true" hasAll="true" primaryKey="ID_LOCAL">
+      <Table name="dm_local">
+      </Table>
+      <Level name="Cidade" visible="true" table="dm_local" column="CIDADE" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="DimCelular">
+    <Hierarchy name="Celular" visible="true" hasAll="true" primaryKey="ID_CELULAR">
+      <Table name="dm_celular">
+      </Table>
+      <Level name="Marca" visible="true" table="dm_celular" column="MARCA" nameColumn="MARCA" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Modelo" visible="true" table="dm_celular" column="MODELO" nameColumn="MODELO" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Dimension type="StandardDimension" visible="true" highCardinality="false" name="DimAnunciante">
+    <Hierarchy name="Anunciante" visible="true" hasAll="true" primaryKey="ID_ANUNCIANTE">
+      <Table name="dm_anunciante">
+      </Table>
+      <Level name="Nome" visible="true" table="dm_anunciante" column="NOME" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+    </Hierarchy>
+  </Dimension>
+  <Cube name="dwCubo" visible="true" cache="true" enabled="true">
+    <Table name="dm_fato_anuncios">
+    </Table>
+    <DimensionUsage source="DimTempo" name="DimTempo" visible="true" foreignKey="DM_TEMPO_ID_TEMPO" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="DimLocal" name="DimLocal" visible="true" foreignKey="DM_LOCAL_ID_LOCAL" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="DimCelular" name="DimCelular" visible="true" foreignKey="DM_CELULAR_ID_CELULAR" highCardinality="false">
+    </DimensionUsage>
+    <DimensionUsage source="DimAnunciante" name="DimAnunciante" visible="true" foreignKey="DM_ANUNCIANTE_ID_ANUNCIANTE" highCardinality="false">
+    </DimensionUsage>
+    <Measure name="Valor" column="PRECO" aggregator="sum" visible="true">
+    </Measure>
+  </Cube>
+</Schema>
