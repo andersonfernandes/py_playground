@@ -62,6 +62,9 @@ for page in range(10):
 
             real, amount = price.split(' ')
 
+            for i in amount:
+                amount = amount.replace('.','')
+
             insert_TPM_ETL(brand, title, condition, amount, advertiser_name, hour, day, moth, city=city,  district=district)
         except Exception as e:
             if len(driver.window_handles) > 1:
