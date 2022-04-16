@@ -60,6 +60,9 @@ for i in range(10):
             district = 'unknown'
 
         real, amount = price.split(' ')
+        
+        for i in amount:
+            amount = amount.replace('.','')
   
         insert_TPM_ETL(brand, title, condition, amount, advertiser_name, hour, day, moth, city=city,  district=district)
     except Exception as e:
