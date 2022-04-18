@@ -3,7 +3,7 @@ from chrome_driver import get_driver, find_element_by_xpath, wait_element_load
 
 driver = get_driver()
 
-for page in range(10):
+for page in range(80):
     driver.get(f'https://al.olx.com.br/celulares/?o={str(page + 1)}')
     wait_element_load('ad-list')
 
