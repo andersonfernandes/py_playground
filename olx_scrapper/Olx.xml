@@ -13,6 +13,8 @@
       </Table>
       <Level name="Cidade" visible="true" table="dm_local" column="CIDADE" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
+      <Level name="Estado" visible="true" column="ESTADO" uniqueMembers="false">
+      </Level>
     </Hierarchy>
   </Dimension>
   <Dimension type="StandardDimension" visible="true" highCardinality="false" name="DimCelular">
