@@ -3,7 +3,7 @@
     <Hierarchy name="Tempo" visible="true" hasAll="true" primaryKey="ID_TEMPO">
       <Table name="dm_tempo">
       </Table>
-      <Level name="Ano" visible="true" table="dm_tempo" column="ANO" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      <Level name="Ano" visible="true" table="dm_tempo" column="ANO" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
     </Hierarchy>
   </Dimension>
@@ -13,7 +13,7 @@
       </Table>
       <Level name="Cidade" visible="true" table="dm_local" column="CIDADE" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
-      <Level name="Estado" visible="true" column="ESTADO" uniqueMembers="false">
+      <Level name="Estado" visible="true" table="dm_local" column="ESTADO" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
     </Hierarchy>
   </Dimension>
@@ -21,9 +21,9 @@
     <Hierarchy name="Celular" visible="true" hasAll="true" primaryKey="ID_CELULAR">
       <Table name="dm_celular">
       </Table>
-      <Level name="Marca" visible="true" table="dm_celular" column="MARCA" nameColumn="MARCA" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      <Level name="Marca" visible="true" table="dm_celular" column="MARCA" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
-      <Level name="Modelo" visible="true" table="dm_celular" column="MODELO" nameColumn="MODELO" type="String" uniqueMembers="false" levelType="Regular" hideMemberIf="Never">
+      <Level name="Modelo" visible="true" table="dm_celular" column="MODELO" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
     </Hierarchy>
   </Dimension>
@@ -46,7 +46,11 @@
     </DimensionUsage>
     <DimensionUsage source="DimAnunciante" name="DimAnunciante" visible="true" foreignKey="DM_ANUNCIANTE_ID_ANUNCIANTE" highCardinality="false">
     </DimensionUsage>
-    <Measure name="Valor" column="PRECO" aggregator="sum" visible="true">
+    <Measure name="Valor_max" column="PRECO" aggregator="max" visible="true">
+    </Measure>
+    <Measure name="Valor_min" column="PRECO" aggregator="min" visible="true">
+    </Measure>
+    <Measure name="Valor_med" column="PRECO" aggregator="avg" visible="true">
     </Measure>
   </Cube>
 </Schema>
