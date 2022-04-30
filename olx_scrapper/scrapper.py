@@ -8,7 +8,7 @@ state_list = ['al', 'se']
 
 for initials in state_list:
 
-    for page in range(3):
+    for page in range(80):
         driver.get(f'https://{initials}.olx.com.br/celulares?o={str(page + 1)}')
         wait_element_load('ad-list')
 
