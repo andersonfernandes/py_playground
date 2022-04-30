@@ -11,8 +11,6 @@
     <Hierarchy name="Local" visible="true" hasAll="true" primaryKey="ID_LOCAL">
       <Table name="dm_local">
       </Table>
-      <Level name="Cidade" visible="true" table="dm_local" column="CIDADE" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
-      </Level>
       <Level name="Estado" visible="true" table="dm_local" column="ESTADO" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
     </Hierarchy>
@@ -24,6 +22,8 @@
       <Level name="Marca" visible="true" table="dm_celular" column="MARCA" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
       <Level name="Modelo" visible="true" table="dm_celular" column="MODELO" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
+      </Level>
+      <Level name="Condicao" visible="true" table="dm_celular" column="CONDICAO" type="String" uniqueMembers="true" levelType="Regular" hideMemberIf="Never">
       </Level>
     </Hierarchy>
   </Dimension>
