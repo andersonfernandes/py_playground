@@ -1,4 +1,3 @@
-from asyncio.windows_events import NULL
 from dw import insert_place, insert_mobile, insert_advertiser, insert_date, insert_fact_ads, insert_TPM_ETL, close_db_connection
 from chrome_driver import get_driver, find_element_by_xpath, wait_element_load
 from model_handling import apple_handling, samsung_handling, lg_handling, motorola_lenovo_handling
